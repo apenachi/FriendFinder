@@ -30,6 +30,6 @@ api(app);
 html(app);
 
 
-app.listen(PORT, function() {
-	console.log(chalk.black.bgWhite.bold("App listening on PORT: " + PORT));
+app.listen(app.get('port'), function() {
+	console.log(chalk.black.bgWhite.bold("App listening on PORT: " + app.get('port')));
 });
