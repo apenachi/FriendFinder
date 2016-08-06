@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Friends</title>
+	<link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css" integrity="sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE" crossorigin="anonymous">
+	<!-- Latest compiled and minified CSS & JS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+<body>
+	<div class="container">
+
+<!-- 		
+		<div class="jumbotron">
+			<h1 class="text-center">Fr<i class="fa fa-male" aria-hidden="true"></i>end F<i class="fa fa-female" aria-hidden="true"></i>nder</h1>
+			<hr>
+			<h2 class="text-center">L<i class="fa fa-frown-o" aria-hidden="true"></i>nely ... get a friend ...!</h2>
+			<br>
+			<div class="text-center">
+				<a href="#"><button type="button" class="btn btn-lg btn-info">Get me a friend ...!</button></a>
+			</div>
+		</div> 
+-->
+		<h1>Survey</h1>
+		<div class="row" id="survey">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3>About you</h3>
+					</div>
+					<div class="panel-body" id="tableSection">
+						<h5>Name (required)</h5>
+						<input type="text" class="form-control" id="name" required>
+						<h5>Link to photo (required)</h5>
+						<input type="text" class="form-control" id="photo" required>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12" id="questions">
+				
+<!-- 		<div class = "panel panel-default">
+					<div class = "panel-body">
+						<div class="col-sm-9">
+							<h4>1. You always look at the eyes</h4>
+						</div>
+						<div class="col-sm-3">
+							<select class="form-control" id="answer-1">
+								<option value="0" selected>Select One</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<a href="#"><button id="submit" type="button" class="btn btn-lg btn-info btn-block">Submit</button></a>
+-->	
+			</div>
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="getCodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel"> Your Friend </h4>
+					</div>
+					<div class="modal-body" id="getCode" style="overflow-x: scroll;">
+						<h3 id="friendName"></h3>
+						<img id="friendPic" src="http://one.example.com/image.jpg">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<footer class="footer">
+			<div class="container">
+				<p><a href="/api/friends">API Friend List</a> | <a href="/">Home</a></p> 
+			</div>
+		</footer>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var currentURL = window.location.origin;
+			
+			$('i').hover(
+				function() {
+					$(this).addClass('fa-spin'); //'fa-pulse'
+				},
+				function(){
+					$(this).removeClass('fa-spin');}
+			);
+			// $('#survey').hide();
+			// var questions = [
+			// {question:'always greet when you walk into a room'},
+			// {question:'how confident are you to start a conversation'}
+			// ];
+			$('#questions').hide();
+			var questions;
+			$.get('/api/questions').done(function(response) {
+				questions = response;
+				console.log(questions);
+				questions.map(function(item, index) {
+					var paneldefault = $('<div class="panel panel-default">');
+					var panelbody = $('<div class="panel-body">');
+					var colsm9 = $('<div class="col-sm-9">');
+					var h4 = $('<h4>', {text: index+1 + '. ' + item.question});
+					colsm9.append(h4);
+					panelbody.append(colsm9);
+					var colsm3 = $('<div class="col-sm-3">');
+					var select = $('<select class="form-control">');
+					select.append('<option value="0">Select one</option>');
+					for(var i = 1; i < 6; i++){
+						select.append('<option value=' + i + '>' + i + '</option>');
+					};
+					colsm3.append(select);
+					panelbody.append(colsm3);
+					paneldefault.append(panelbody);
+					$('#questions').append(paneldefault);
+				})
+				var submit = $('<a href="#"><button id="submit" type="button" class="btn btn-lg btn-info btn-block">Submit</button></a>')
+				$('#questions').append(submit);
+				
+				// $('button').on('click', function() {
+				// 	$('#survey').show();
+				// 	$('#questions').hide();
+				// });
+				var friend = {};
+
+				$('#name').keypress(function() {
+					if($(this).val().length <= 0) {
+						$('#questions').hide();
+					} else {
+						
+						$('#questions').show();
+					}
+				});
+				// $('questions').append(question)
+				var scores = [];
+				$('select').on('change', function() {
+					if($(this).val() !== '' && $(this).val() > 0) {
+						scores.push($(this).val());
+					}
+				});
+
+				$('#questions').on('click', '#submit', function() {
+					if(scores.length < questions.length) {
+						alert('please answer all question');	
+					} else {
+						friend.name = $('#name').val();
+						friend.photo = $('#photo').val();
+						friend.scores = scores;
+						$.post('/api/friends', friend).done(function (response) {
+							console.log(response);
+
+								$('#friendName').text(response.name);
+								$('#friendPic').attr('src', response.photo);
+								$('#getCodeModal').modal('show');
+						});
+						// Reset all values or redirect to /
+						$('select').val('0');
+						$('#name').val('');
+						$('#photo').val('');
+
+					}
+				})
+
+			});
+
+		});
+
+	</script>
+</body>
+</html>
