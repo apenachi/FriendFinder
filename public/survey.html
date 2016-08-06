@@ -101,7 +101,7 @@
 			// ];
 			$('#questions').hide();
 			var questions;
-			$.get('/api/questions').done(function(response) {
+			$.get(currentURL + '/api/questions').done(function(response) {
 				questions = response;
 				console.log(questions);
 				questions.map(function(item, index) {
