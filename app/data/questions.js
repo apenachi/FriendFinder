@@ -1,9 +1,9 @@
 
 var questions = [
 	{question:'You always greet when you walk into a room'},
-	{question:'how confident are you to start a conversation'},
-	{question:'Are you creative, have ideas on your own'},
-	// {question:'Can you take a constructive criticism'},
+	{question:'How confident are you to start a conversation'},
+	{question:'Favorite place to hangout is a club'},
+	// {question:'You like to be comforted when you’re sad or upset'},
 	// {question:'You do not hold back, you say what you feel'},
 	// {question:'The more you spent in clothes the better you look'},
 	// {question:'The truth even if it hurts'},
