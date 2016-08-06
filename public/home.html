@@ -17,7 +17,7 @@
 </head>
 <body>
 	<div class="container">
-
+		<br>
 		<div class="jumbotron">
 			<h1 class="text-center">Fr<i class="fa fa-male" aria-hidden="true"></i>end F<i class="fa fa-female" aria-hidden="true"></i>nder</h1>
 			<hr>
@@ -55,5 +55,20 @@
 			</div>
 		</footer>
 	</div>
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			var currentURL = window.location.origin;
+
+			$('i').hover(
+				function() {
+					$(this).addClass('fa-spin'); //'fa-pulse'
+				},
+				function(){
+					$(this).removeClass('fa-spin');}
+			);
+		})
+
+	</script>
 </body>
 </html>
