@@ -3,8 +3,8 @@ var bodyParser = require('body-parser');
 var chalk = require('chalk');
 var path = require('path');
 
-var api = require('./routing/api-routes.js');
-var html = require('./routing/html-routes.js');
+var api = require('./app/routing/api-routes.js');
+var html = require('./app/routing/html-routes.js');
 
 var app = express();
 var PORT = process.env.PORT || 8080;
